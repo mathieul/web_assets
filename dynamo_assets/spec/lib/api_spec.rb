@@ -37,19 +37,19 @@ describe DynamoAssets::Api do
   it "#script_content delegates to its script processor" do
     expect(script_processor)
       .to receive(:content)
-         .with("application.js")
+         .with("application.js", bundle: true, minify: true, gzip: false)
          .and_return("js content")
 
-    expect(subject.script_content("application.js")).to eq "js content"
+    expect(subject.script_content("application.js", minify: true)).to eq "js content"
   end
 
   it "#stylesheet_content delegates to its stylesheet processor" do
     expect(stylesheet_processor)
       .to receive(:content)
-         .with("application.css")
+         .with("application.css", minify: true, gzip: false)
          .and_return("css content")
 
-    expect(subject.stylesheet_content("application.css")).to eq "css content"
+    expect(subject.stylesheet_content("application.css", minify: true)).to eq "css content"
   end
 
 end
