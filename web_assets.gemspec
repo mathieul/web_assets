@@ -21,6 +21,8 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "compass", "~> 0.12.2"
+  spec.add_dependency "coffee-script", "~> 2.2.0"
+  spec.add_dependency "uglifier"
   spec.add_dependency "sprockets", "~> 2.10.0"
   spec.add_dependency "erlectricity", "~> 1.1.1"
 
@@ -28,4 +30,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake"
   spec.add_development_dependency "rspec", "~> 3.0.0.beta1"
   spec.add_development_dependency "guard-rspec"
+  spec.add_development_dependency "pry-nav"
 end
