@@ -17,21 +17,21 @@ module WebAssets
       stylesheet_processor.append_path path
     end
 
-    def script_files file_name
-      script_processor.files file_name
+    def script_filenames filename
+      script_processor.filenames filename
     end
 
-    def script_content file_name, options = {}
+    def script_content filename, options = {}
       options[:bundle] = options.fetch :bundle, true
       options[:minify] = options.fetch :minify, false
       options[:gzip]   = options.fetch :gzip, false
-      script_processor.content file_name, options
+      script_processor.content filename, options
     end
 
-    def stylesheet_content file_name, options = {}
+    def stylesheet_content filename, options = {}
       options[:minify] = options.fetch :minify, false
       options[:gzip]   = options.fetch :gzip, false
-      stylesheet_processor.content file_name, options
+      stylesheet_processor.content filename, options
     end
 
   end

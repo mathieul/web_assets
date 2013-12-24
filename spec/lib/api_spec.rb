@@ -25,13 +25,13 @@ describe WebAssets::Api do
     expect(subject.append_stylesheet_path("/some/css/path")).to eq :ok
   end
 
-  it "#script_files delegates to its script processor" do
+  it "#script_filenames delegates to its script processor" do
     expect(script_processor)
-      .to receive(:files)
+      .to receive(:filenames)
          .with("application.js")
          .and_return(["one.js", "two.js", "application.js"])
 
-    expect(subject.script_files("application.js")).to eq ["one.js", "two.js", "application.js"]
+    expect(subject.script_filenames("application.js")).to eq ["one.js", "two.js", "application.js"]
   end
 
   it "#script_content delegates to its script processor" do
