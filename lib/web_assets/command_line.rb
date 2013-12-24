@@ -1,6 +1,6 @@
 require "optparse"
 
-module DynamoAssets
+module WebAssets
 
   class CommandLine
 

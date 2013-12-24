@@ -1,5 +1,5 @@
 require 'bundler/setup'
-require 'dynamo_assets'
+require 'web_assets'
 
 RSpec.configure do |config|
 end

@@ -1,12 +1,13 @@
-# DynamoAssets
+# WebAssets
 
-TODO: Write a gem description
+A command to pre-process web assets using Ruby tools, intended to be called
+from a different language.
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
-    gem 'dynamo_assets'
+    gem 'web_assets'
 
 And then execute:
 
@@ -14,7 +15,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install dynamo_assets
+    $ gem install web_assets
 
 ## Usage
 

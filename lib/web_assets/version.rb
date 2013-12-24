@@ -1,3 +1,3 @@
-module DynamoAssets
+module WebAssets
   VERSION = "0.0.1"
 end

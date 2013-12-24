@@ -1,11 +1,11 @@
 require "spec_helper"
 
-describe DynamoAssets::Api do
+describe WebAssets::Api do
 
-  subject { DynamoAssets::Api.new script_processor, stylesheet_processor }
+  subject { WebAssets::Api.new script_processor, stylesheet_processor }
 
-  let(:script_processor)     { instance_double "DynamoAssets::ScriptProcessor" }
-  let(:stylesheet_processor) { instance_double "DynamoAssets::StylesheetProcessor" }
+  let(:script_processor)     { instance_double "WebAssets::ScriptProcessor" }
+  let(:stylesheet_processor) { instance_double "WebAssets::StylesheetProcessor" }
 
   it "#append_script_path delegates to its script processor" do
     expect(script_processor)

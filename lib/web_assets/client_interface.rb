@@ -1,6 +1,6 @@
 require "erlectricity"
 
-module DynamoAssets
+module WebAssets
 
   class ClientInterface
 

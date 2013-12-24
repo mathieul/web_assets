@@ -1,4 +1,4 @@
-module DynamoAssets
+module WebAssets
 
   class Api
 

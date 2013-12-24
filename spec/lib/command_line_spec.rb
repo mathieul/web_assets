@@ -1,8 +1,8 @@
 require "spec_helper"
 
-describe DynamoAssets::CommandLine do
+describe WebAssets::CommandLine do
 
-  subject { DynamoAssets::CommandLine }
+  subject { WebAssets::CommandLine }
 
   context "#parse" do
 
