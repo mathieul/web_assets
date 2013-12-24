@@ -27,6 +27,11 @@ module WebAssets
       bundle.to_a.map(&:logical_path)
     end
 
+    def digest_filename filename
+      return "" unless bundle = environment[filename]
+      bundle.digest_path
+    end
+
     def content filename, options
       environment.js_compressor = options[:minify] ? :uglifier : nil
       return "" unless bundle = environment[filename]

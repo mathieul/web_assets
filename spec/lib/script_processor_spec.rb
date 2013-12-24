@@ -62,6 +62,23 @@ describe WebAssets::ScriptProcessor do
       expect(content[-1]).to eq "\u0000"
       expect(content.length).to eq 78
     end
+
+  end
+
+  context "#digest_filename" do
+
+    before :each do
+      subject.append_path js_fixture_path
+    end
+
+    it "returns an empty string if the file doesn't exist" do
+      expect(subject.digest_filename("no/file.js")).to eq ""
+    end
+
+    it "returns the digest filename if the file exists" do
+      expect(subject.digest_filename("application.js")).to eq "application-73b969089909eeeaab9f39768912d755.js"
+    end
+
   end
 
 end

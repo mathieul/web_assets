@@ -21,11 +21,19 @@ module WebAssets
       script_processor.filenames filename
     end
 
+    def script_digest_filename filename
+      script_processor.digest_filename filename
+    end
+
     def script_content filename, options = {}
       options[:bundle] = options.fetch :bundle, true
       options[:minify] = options.fetch :minify, false
       options[:gzip]   = options.fetch :gzip, false
       script_processor.content filename, options
+    end
+
+    def stylesheet_digest_filename filename
+      stylesheet_processor.digest_filename filename
     end
 
     def stylesheet_content filename, options = {}

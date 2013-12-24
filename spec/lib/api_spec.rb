@@ -34,6 +34,15 @@ describe WebAssets::Api do
     expect(subject.script_filenames("application.js")).to eq ["one.js", "two.js", "application.js"]
   end
 
+  it "#script_digest_filename delegates to its script processor" do
+    expect(script_processor)
+      .to receive(:digest_filename)
+         .with("application.js")
+         .and_return("application-123123123.js")
+
+    expect(subject.script_digest_filename("application.js")).to eq "application-123123123.js"
+  end
+
   it "#script_content delegates to its script processor" do
     expect(script_processor)
       .to receive(:content)
@@ -41,6 +50,15 @@ describe WebAssets::Api do
          .and_return("js content")
 
     expect(subject.script_content("application.js", minify: true)).to eq "js content"
+  end
+
+  it "#stylesheet_digest_filename delegates to its stylesheet processor" do
+    expect(stylesheet_processor)
+      .to receive(:digest_filename)
+         .with("application.css")
+         .and_return("application-42424242.css")
+
+    expect(subject.stylesheet_digest_filename("application.css")).to eq "application-42424242.css"
   end
 
   it "#stylesheet_content delegates to its stylesheet processor" do
