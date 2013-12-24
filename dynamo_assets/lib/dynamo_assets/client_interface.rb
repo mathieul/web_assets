@@ -6,12 +6,12 @@ module DynamoAssets
 
     attr_reader :api, :input, :output
 
-    def initialize api, input:, output:
+    def initialize api, input: STDIN, output: STDOUT
       @api, @input, @output = api, input, output
     end
 
     def listen
-      Kernel.receive input, output do |request| process(request) end
+      Kernel.receive input, output do |request| process request end
     end
 
     private
