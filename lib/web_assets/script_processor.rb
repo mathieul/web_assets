@@ -1,4 +1,5 @@
 require "sprockets"
+require "web_assets/gzipper"
 
 module WebAssets
 
@@ -40,17 +41,7 @@ module WebAssets
       environment.js_compressor = options[:minify] ? :uglifier : nil
       return "" unless bundle = environment[filename]
       content = options[:bundle] ? bundle.to_s : bundle.body
-      options[:gzip] ? gzip(content) : content
-    end
-
-    private
-
-    def gzip content
-      stream = StringIO.new
-      gz = Zlib::GzipWriter.new stream
-      gz.write content
-      gz.close
-      stream.string
+      options[:gzip] ? Gzipper.compress(content) : content
     end
 
   end
