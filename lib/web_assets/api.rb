@@ -9,11 +9,19 @@ module WebAssets
       @stylesheet_processor = stylesheet_processor
     end
 
-    def append_script_path path
+    def set_script_path path
+      script_processor.set_path path
+    end
+
+    def set_stylesheet_path path
+      stylesheet_processor.set_path path
+    end
+
+    def add_script_load_path path
       script_processor.add_load_path path
     end
 
-    def append_stylesheet_path path
+    def add_stylesheet_load_path path
       stylesheet_processor.add_load_path path
     end
 

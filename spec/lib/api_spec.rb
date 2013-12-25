@@ -7,22 +7,40 @@ describe WebAssets::Api do
   let(:script_processor)     { instance_double "WebAssets::ScriptProcessor" }
   let(:stylesheet_processor) { instance_double "WebAssets::StylesheetProcessor" }
 
-  it "#append_script_path delegates to its script processor" do
+  it "#set_script_path delegates to its script processor" do
+    expect(script_processor)
+      .to receive(:set_path)
+         .with("/the/js/path")
+         .and_return(:ok)
+
+    expect(subject.set_script_path("/the/js/path")).to eq :ok
+  end
+
+  it "#set_stylesheet_path delegates to its stylesheet processor" do
+    expect(stylesheet_processor)
+      .to receive(:set_path)
+         .with("/the/css/path")
+         .and_return(:ok)
+
+    expect(subject.set_stylesheet_path("/the/css/path")).to eq :ok
+  end
+
+  it "#add_script_load_path delegates to its script processor" do
     expect(script_processor)
       .to receive(:add_load_path)
          .with("/some/js/path")
          .and_return(:ok)
 
-    expect(subject.append_script_path("/some/js/path")).to eq :ok
+    expect(subject.add_script_load_path("/some/js/path")).to eq :ok
   end
 
-  it "#append_stylesheet_path delegates to its stylesheet processor" do
+  it "#add_stylesheet_load_path delegates to its stylesheet processor" do
     expect(stylesheet_processor)
       .to receive(:add_load_path)
          .with("/some/css/path")
          .and_return(:ok)
 
-    expect(subject.append_stylesheet_path("/some/css/path")).to eq :ok
+    expect(subject.add_stylesheet_load_path("/some/css/path")).to eq :ok
   end
 
   it "#script_filenames delegates to its script processor" do
