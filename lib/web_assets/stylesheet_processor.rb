@@ -1,6 +1,7 @@
 require "compass"
 require "sass/plugin"
 require "fileutils"
+require "web_assets/gzipper"
 
 module WebAssets
 
@@ -32,16 +33,17 @@ module WebAssets
 
     def content filename, options
       filepath = full_path filename.sub(RE_EXTENSION, '')
-      case
+      content = case
       when File.exists?("#{filepath}.css")
         File.read "#{filepath}.css"
       when File.exists?("#{filepath}.scss")
-        render_sass_file filepath, "scss"
+        render_sass_file filepath, :scss, render_options(options)
       when File.exists?("#{filepath}.sass")
-        render_sass_file filepath, "sass"
+        render_sass_file filepath, :sass, render_options(options)
       else
         ""
       end
+      options[:gzip] ? Gzipper.compress(content) : content
     end
 
     def digest_filename filename
@@ -53,9 +55,22 @@ module WebAssets
       File.join source_path, filename
     end
 
-    def render_sass_file filepath, extension
-      engine = compiler.engine "#{filepath}.#{extension}", "#{File.basename filepath}.css"
-      engine.render
+    def render_options options
+      {
+        style: options[:minify] ? :compressed : :nested
+      }
+    end
+
+    def render_sass_file filepath, syntax, options
+      sass_filename = "#{filepath}.#{syntax}"
+      sass_options = compiler.sass_options.merge(
+        filename: sass_filename,
+        css_filename: "#{File.basename filepath}.css",
+        syntax: syntax,
+        cache: false
+      ).merge(options)
+      engine = Sass::Engine.new open(sass_filename).read, sass_options
+      engine.to_css
     end
 
     def compiler
