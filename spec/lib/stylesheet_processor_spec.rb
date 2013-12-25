@@ -37,11 +37,19 @@ describe WebAssets::StylesheetProcessor do
       subject.set_path css_fixture_path
     end
 
-    it "returns an empty string if the file doesn't exist"
+    it "returns an empty string if the file doesn't exist" do
+      expect(subject.content("no/file.css", {})).to eq ""
+    end
 
-    it "returns the file content unless :bundle is true"
+    it "returns the css file content if it does exist" do
+      content = subject.content("static.css", {})
+      expect(content).to eq "body { background-color: #f1f1f1; }\n"
+    end
 
-    it "returns the file bundle content if :bundle is true"
+    it "returns the pre-processed file content if it exists" do
+      content = subject.content("application.css", {})
+      expect(content).to match /color: #dd1111;/
+    end
 
     it "returns the content minified if :minify is true"
 
