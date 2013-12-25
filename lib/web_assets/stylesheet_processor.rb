@@ -6,6 +6,8 @@ module WebAssets
 
   class StylesheetProcessor
 
+    RE_EXTENSION = /\.(css|scss|sass)\z/
+
     attr_reader :source_path
 
     def initialize
@@ -29,11 +31,20 @@ module WebAssets
     end
 
     def content filename, options
-      name = File.basename(filename).gsub /\.(s[ac]ss)$/, ''
-      css_path = full_path "#{name}.css"
-      File.read css_path if File.exists? css_path
-      engine = compiler.engine sass_file(css_path), "#{name}.css"
-      engine.render
+      filepath = full_path filename.sub(RE_EXTENSION, '')
+      case
+      when File.exists?("#{filepath}.css")
+        File.read "#{filepath}.css"
+      when File.exists?("#{filepath}.scss")
+        render_sass_file filepath, "scss"
+      when File.exists?("#{filepath}.sass")
+        render_sass_file filepath, "sass"
+      else
+        ""
+      end
+    end
+
+    def digest_filename filename
     end
 
     private
@@ -42,11 +53,9 @@ module WebAssets
       File.join source_path, filename
     end
 
-    def sass_file css_path
-      path = css_path.gsub /\.css/, ''
-      candidate = "#{path}.scss"
-      return candidate if File.exists? candidate
-      "#{path}.sass"
+    def render_sass_file filepath, extension
+      engine = compiler.engine "#{filepath}.#{extension}", "#{File.basename filepath}.css"
+      engine.render
     end
 
     def compiler
