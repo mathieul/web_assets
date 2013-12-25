@@ -10,11 +10,11 @@ module WebAssets
     end
 
     def append_script_path path
-      script_processor.append_path path
+      script_processor.add_load_path path
     end
 
     def append_stylesheet_path path
-      stylesheet_processor.append_path path
+      stylesheet_processor.add_load_path path
     end
 
     def script_filenames filename

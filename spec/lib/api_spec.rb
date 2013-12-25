@@ -9,7 +9,7 @@ describe WebAssets::Api do
 
   it "#append_script_path delegates to its script processor" do
     expect(script_processor)
-      .to receive(:append_path)
+      .to receive(:add_load_path)
          .with("/some/js/path")
          .and_return(:ok)
 
@@ -18,7 +18,7 @@ describe WebAssets::Api do
 
   it "#append_stylesheet_path delegates to its stylesheet processor" do
     expect(stylesheet_processor)
-      .to receive(:append_path)
+      .to receive(:add_load_path)
          .with("/some/css/path")
          .and_return(:ok)
 

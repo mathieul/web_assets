@@ -4,14 +4,28 @@ describe WebAssets::ScriptProcessor do
 
   let(:js_fixture_path) { File.expand_path("../fixtures/javascripts", __dir__) }
 
-  context "#append_path" do
+  context "#set_path" do
 
     it "returns an error if the path doesn't exist" do
-      expect(subject.append_path("/doesnt/exist")).to eq [:error, "/doesnt/exist isn't an existing directory."]
+      result = subject.set_path("/doesnt/exist")
+      expect(result).to eq [:error, "/doesnt/exist isn't an existing directory."]
+    end
+
+    it "sets the stylesheet files path" do
+      expect(subject.set_path(__dir__)).to eq :ok
+    end
+
+  end
+
+  context "#add_load_path" do
+
+    it "returns an error if the path doesn't exist" do
+      result = subject.add_load_path("/doesnt/exist")
+      expect(result).to eq [:error, "/doesnt/exist isn't an existing directory."]
     end
 
     it "adds the path to the processor load path" do
-      expect(subject.append_path(__dir__)).to eq :ok
+      expect(subject.add_load_path(__dir__)).to eq :ok
       expect(subject.paths).to eq [__dir__]
     end
 
@@ -24,7 +38,7 @@ describe WebAssets::ScriptProcessor do
     end
 
     it "returns the list of file dependencies and the file" do
-      subject.append_path js_fixture_path
+      subject.set_path js_fixture_path
 
       expect(subject.filenames("application.js")).to eq ["lib/useful.js", "application.js"]
     end
@@ -34,7 +48,7 @@ describe WebAssets::ScriptProcessor do
   context "#content" do
 
     before :each do
-      subject.append_path js_fixture_path
+      subject.set_path js_fixture_path
     end
 
     it "returns an empty string if the file doesn't exist" do
@@ -68,7 +82,7 @@ describe WebAssets::ScriptProcessor do
   context "#digest_filename" do
 
     before :each do
-      subject.append_path js_fixture_path
+      subject.set_path js_fixture_path
     end
 
     it "returns an empty string if the file doesn't exist" do

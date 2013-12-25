@@ -10,16 +10,20 @@ module WebAssets
       @environment = Sprockets::Environment.new
     end
 
-    def append_path path
+    def set_path path
+      return [:error, "#{path} isn't an existing directory."] unless Dir.exists? path
+      environment.prepend_path path
+      :ok
+    end
+
+    def add_load_path path
       return [:error, "#{path} isn't an existing directory."] unless Dir.exists? path
       environment.append_path path
       :ok
-    rescue StandardError => ex
-      [:error, ex.to_s]
     end
 
     def paths
-      environment.paths
+      environment.paths.dup
     end
 
     def filenames filename
