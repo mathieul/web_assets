@@ -57,10 +57,9 @@ describe WebAssets::StylesheetProcessor do
     end
 
     it "returns the content gzipped if :gzip is true" do
-      content = subject.content("application.css", gzip: true)
-      expect(content[0]).to eq "\u001F"
-      expect(content[-1]).to eq "\u0000"
-      expect(content.length).to eq 134
+      gzipped = subject.content("application.css", gzip: true, minify: true)
+      content = WebAssets::Gzipper.uncompress gzipped
+      expect(content).to eq "h1{color:#d11}\n"
     end
 
   end

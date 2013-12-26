@@ -10,6 +10,14 @@ module WebAssets
       stream.string
     end
 
+    def self.uncompress zipped
+      stream = StringIO.new zipped
+      gz = Zlib::GzipReader.new stream
+      content = gz.read
+      gz.close
+      content
+    end
+
   end
 
 end

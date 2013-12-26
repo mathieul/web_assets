@@ -71,10 +71,9 @@ describe WebAssets::ScriptProcessor do
     end
 
     it "returns the content gzipped if :gzip is true" do
-      content = subject.content("application.js", bundle: true, minify: true, gzip: true)
-      expect(content[0]).to eq "\u001F"
-      expect(content[-1]).to eq "\u0000"
-      expect(content.length).to eq 78
+      gzipped = subject.content("application.js", bundle: true, minify: true, gzip: true)
+      content = WebAssets::Gzipper.uncompress gzipped
+      expect(content).to eq "(function(){console.log(\"in useful\")}).call(this);var main=!0;"
     end
 
   end
