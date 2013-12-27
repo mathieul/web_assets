@@ -1,6 +1,7 @@
 require "compass"
 require "sass/plugin"
 require "fileutils"
+require "digest/md5"
 require "web_assets/gzipper"
 
 module WebAssets
@@ -47,6 +48,10 @@ module WebAssets
     end
 
     def digest_filename filename
+      minified = content filename, minify: true
+      return "" if minified.empty?
+      hexdigest = digest.hexdigest minified
+      "#{File.basename filename, ".*"}-#{hexdigest}#{File.extname filename}"
     end
 
     private
@@ -92,6 +97,12 @@ module WebAssets
       File.join(tmp_path, "css").tap do |path|
         FileUtils.mkdir path unless Dir.exists? path
       end
+    end
+
+    def digest
+      @digest ||= Digest::MD5.new.update(VERSION)
+                                 .update(Compass::VERSION)
+                                 .update(Sass::VERSION)
     end
 
   end

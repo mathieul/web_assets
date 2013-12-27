@@ -70,9 +70,13 @@ describe WebAssets::StylesheetProcessor do
       subject.set_path css_fixture_path
     end
 
-    it "returns an empty string if the file doesn't exist"
+    it "returns an empty string if the file doesn't exist" do
+      expect(subject.digest_filename("no/file.css")).to eq ""
+    end
 
-    it "returns the digest filename if the file exists"
+    it "returns the digest filename if the file exists" do
+      expect(subject.digest_filename("application.css")).to eq "application-1fc624e75863496c475c1f71d5d4d1e0.css"
+    end
 
   end
 
