@@ -11,7 +11,7 @@ module WebAssets
     end
 
     def parse
-      options = {require: [], debug: false}
+      options = {libs: [], debug: false}
       parser(options).parse! arguments
       options
     end
