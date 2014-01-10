@@ -6,17 +6,15 @@ module WebAssets
 
     def initialize arguments
       options = CommandLine.new(arguments).parse
-      @debug = options.fetch :debug, false
+      WebAssets.debug = options.fetch :debug, false
       @libs = options.fetch :libs, []
     end
 
-    def debug?
-      @debug
-    end
-
     def run
+      WebAssets.logger.debug "Runner#run: >>>"
       load_libs
       listen_to_client
+      WebAssets.logger.debug "Runner#run: <<<"
     end
 
     private
@@ -29,14 +27,6 @@ module WebAssets
       api = Api.new script_processor, stylesheet_processor
       client_interface = ClientInterface.new api, input: STDIN, output: STDOUT
       client_interface.listen
-    end
-
-    def logger
-      @logger ||= begin
-        logger = Logger.new debug? ? "web_assets.log" : STDERR
-        logger.level = debug? ? Logger::DEBUG : Logger::ERROR
-        logger
-      end
     end
 
     def script_processor

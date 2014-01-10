@@ -18,12 +18,14 @@ module WebAssets
 
     def set_path path
       return [:error, "#{path} isn't an existing directory."] unless Dir.exists? path
+      WebAssets.logger.debug "StylesheetProcessor#set_path #{path.inspect}"
       @source_path = path
       :ok
     end
 
     def add_load_path path
       return [:error, "#{path} isn't an existing directory."] unless Dir.exists? path
+      WebAssets.logger.debug "StylesheetProcessor#add_load_path #{path.inspect}"
       Sass.load_paths << path
       :ok
     end
@@ -34,12 +36,16 @@ module WebAssets
 
     def content filename, options
       filepath = full_path filename.sub(RE_EXTENSION, '')
+      WebAssets.logger.debug "StylesheetProcessor#content #{path.inspect}"
       content = case
       when File.exists?("#{filepath}.css")
+        WebAssets.logger.debug "StylesheetProcessor#content: File.read"
         File.read "#{filepath}.css"
       when File.exists?("#{filepath}.scss")
+        WebAssets.logger.debug "StylesheetProcessor#content: #render_sass_file/scss"
         render_sass_file filepath, :scss, render_options(options)
       when File.exists?("#{filepath}.sass")
+        WebAssets.logger.debug "StylesheetProcessor#content: #render_sass_file/sass"
         render_sass_file filepath, :sass, render_options(options)
       else
         ""
