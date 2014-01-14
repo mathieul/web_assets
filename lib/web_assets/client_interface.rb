@@ -44,27 +44,32 @@ module WebAssets
 
       request.when [:script_filenames, String] do |filename|
         WebAssets.logger.debug "ClientInterface#process: script_filenames = #{filename.inspect}"
-        reply request, api.script_filenames(filename)
+        names = api.script_filenames(filename)
+        reply request, [:filenames, names]
       end
 
       request.when [:script_digest_filename, String] do |filename|
         WebAssets.logger.debug "ClientInterface#process: script_digest_filename = #{filename.inspect}"
-        reply request, api.script_digest_filename(filename)
+        name = api.script_digest_filename(filename)
+        reply request, [:filename, name]
       end
 
       request.when [:script_content, Array] do |filename, options|
-        WebAssets.logger.debug "ClientInterface#process: script_content = #{filename.inspect}"
-        reply request, api.script_content(filename, options)
+        WebAssets.logger.debug "ClientInterface#process: script_content = #{filename.inspect}, #{options.inspect}"
+        content = api.script_content(filename, Hash[options])
+        reply request, [:content, content]
       end
 
       request.when [:stylesheet_digest_filename, String] do |filename|
         WebAssets.logger.debug "ClientInterface#process: stylesheet_digest_filename = #{filename.inspect}"
-        reply request, api.stylesheet_digest_filename(filename)
+        name = api.stylesheet_digest_filename(filename)
+        reply request, [:filename, name]
       end
 
       request.when [:stylesheet_content, Array] do |filename, options|
-        WebAssets.logger.debug "ClientInterface#process: stylesheet_content = #{filename.inspect}"
-        reply request, api.stylesheet_content(filename, options)
+        WebAssets.logger.debug "ClientInterface#process: stylesheet_content = #{filename.inspect}, #{options.inspect}"
+        content = api.stylesheet_content(filename, Hash[options])
+        reply request, [:content, content]
       end
 
       WebAssets.logger.debug "ClientInterface#process: END"
@@ -73,7 +78,6 @@ module WebAssets
     def reply request, response
       WebAssets.logger.debug "ClientInterface#reply: #send! #{response.inspect}"
       request.send! response
-      WebAssets.logger.debug "ClientInterface#reply: #receive_loop"
       request.receive_loop
     end
 
