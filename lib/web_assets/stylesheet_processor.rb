@@ -36,7 +36,7 @@ module WebAssets
 
     def content filename, options
       filepath = full_path filename.sub(RE_EXTENSION, '')
-      WebAssets.logger.debug "StylesheetProcessor#content #{path.inspect}"
+      WebAssets.logger.debug "StylesheetProcessor#content #{filepath.inspect}"
       content = case
       when File.exists?("#{filepath}.css")
         WebAssets.logger.debug "StylesheetProcessor#content: File.read"

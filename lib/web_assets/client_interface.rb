@@ -54,7 +54,7 @@ module WebAssets
         reply request, [:filename, name]
       end
 
-      request.when [:script_content, Array] do |filename, options|
+      request.when [:script_content, Array] do |(filename, options)|
         WebAssets.logger.debug "ClientInterface#process: script_content = #{filename.inspect}, #{options.inspect}"
         content = api.script_content(filename, Hash[options])
         reply request, [:content, content]
@@ -66,7 +66,7 @@ module WebAssets
         reply request, [:filename, name]
       end
 
-      request.when [:stylesheet_content, Array] do |filename, options|
+      request.when [:stylesheet_content, Array] do |(filename, options)|
         WebAssets.logger.debug "ClientInterface#process: stylesheet_content = #{filename.inspect}, #{options.inspect}"
         content = api.stylesheet_content(filename, Hash[options])
         reply request, [:content, content]
