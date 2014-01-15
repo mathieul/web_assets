@@ -76,7 +76,7 @@ module WebAssets
     end
 
     def reply request, response
-      WebAssets.logger.debug "ClientInterface#reply: #send! #{response.inspect}"
+      WebAssets.logger.debug "ClientInterface#reply: #send!"
       request.send! response
       request.receive_loop
     end
