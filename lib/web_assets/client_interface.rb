@@ -6,8 +6,10 @@ module WebAssets
 
     attr_reader :api, :input, :output
 
-    def initialize api, input: STDIN, output: STDOUT
-      @api, @input, @output = api, input, output
+    def initialize api, options = {}
+      @api = api
+      @input = options.fetch :input, STDIN
+      @output = options.fetch :output, STDOUT
     end
 
     def listen
