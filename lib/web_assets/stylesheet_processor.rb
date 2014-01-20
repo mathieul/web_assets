@@ -78,7 +78,7 @@ module WebAssets
         filename: sass_filename,
         css_filename: "#{File.basename filepath}.css",
         syntax: syntax,
-        cache: false
+        cache: true
       ).merge(options)
       engine = Sass::Engine.new open(sass_filename).read, sass_options
       engine.to_css
