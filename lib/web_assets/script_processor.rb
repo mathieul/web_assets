@@ -9,6 +9,9 @@ module WebAssets
 
     def initialize
       @environment = Sprockets::Environment.new
+      if defined?(HandlebarsAssets)
+        environment.append_path(HandlebarsAssets.path)
+      end
     end
 
     def set_path path
