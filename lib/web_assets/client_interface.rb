@@ -1,4 +1,4 @@
-require "erlectricity"
+require "beambridge"
 
 module WebAssets
 
