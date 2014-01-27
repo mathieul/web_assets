@@ -11,6 +11,7 @@ module WebAssets
       @environment = Sprockets::Environment.new
       if defined?(HandlebarsAssets)
         environment.append_path(HandlebarsAssets.path)
+        HandlebarsAssets::Config.ember = true
       end
     end
 
