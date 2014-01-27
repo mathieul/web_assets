@@ -26,22 +26,22 @@ module WebAssets
 
       request.when [:set_script_path, String] do |path|
         WebAssets.logger.debug "ClientInterface#process: set_script_path = #{path.inspect}"
-        reply request, api.set_script_path(path)
+        reply request, api.set_script_path(eval_path path)
       end
 
       request.when [:set_stylesheet_path, String] do |path|
         WebAssets.logger.debug "ClientInterface#process: set_stylesheet_path = #{path.inspect}"
-        reply request, api.set_stylesheet_path(path)
+        reply request, api.set_stylesheet_path(eval_path path)
       end
 
       request.when [:add_script_load_path, String] do |path|
         WebAssets.logger.debug "ClientInterface#process: add_script_load_path = #{path.inspect}"
-        reply request, api.add_script_load_path(path)
+        reply request, api.add_script_load_path(eval_path path)
       end
 
       request.when [:add_stylesheet_load_path, String] do |path|
         WebAssets.logger.debug "ClientInterface#process: add_stylesheet_load_path = #{path.inspect}"
-        reply request, api.add_stylesheet_load_path(path)
+        reply request, api.add_stylesheet_load_path(eval_path path)
       end
 
       request.when [:script_filenames, String] do |filename|
@@ -81,6 +81,13 @@ module WebAssets
       WebAssets.logger.debug "ClientInterface#reply: #send!"
       request.send! response
       request.receive_loop
+    end
+
+    def eval_path path
+      return path unless path.start_with? "ruby:"
+      instance_eval path[5..-1]
+    rescue StandardError
+      "INVALID PATH"
     end
 
   end
